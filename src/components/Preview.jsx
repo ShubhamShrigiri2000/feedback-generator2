@@ -1,4 +1,14 @@
 function Preview({ candidateName, experience, skills, concepts, finalRemarks, date, showTitle = true }) {
+  // Filter out empty skills (where both name and rating are empty)
+  const filteredSkills = skills.filter(skill => 
+    skill.name && skill.name.trim() && skill.rating && skill.rating.toString().trim()
+  );
+
+  // Filter out empty concepts (where both topic and remark are empty)
+  const filteredConcepts = concepts.filter(concept => 
+    concept.topic && concept.topic.trim() && concept.remark && concept.remark.trim()
+  );
+
   return (
     <div className="max-w-5xl mx-auto mb-8">
       {showTitle && (
@@ -53,58 +63,62 @@ function Preview({ candidateName, experience, skills, concepts, finalRemarks, da
         </div>
 
         {/* Technical Skills */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-            <div className="h-8 w-1 bg-red-600 rounded-full"></div>
-            Technical Skills
-          </h3>
-          <div className="overflow-hidden rounded-xl border-2 border-gray-200">
-            <table className="w-full" border="1" cellPadding="8">
-              <thead className="bg-red-600 text-white">
-                <tr>
-                  <th className="p-3 text-left font-semibold">Skill</th>
-                  <th className="p-3 text-center font-semibold">Rating (Out of 5)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {skills.map((skill, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="border border-gray-200 p-3 text-gray-800 font-medium">{skill.name || "-"}</td>
-                    <td className="border border-gray-200 p-3 text-center font-semibold text-red-600">
-                      {skill.rating ? `${skill.rating}/5` : "-"}
-                    </td>
+        {filteredSkills.length > 0 && (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <div className="h-8 w-1 bg-red-600 rounded-full"></div>
+              Technical Skills
+            </h3>
+            <div className="overflow-hidden rounded-xl border-2 border-gray-200">
+              <table className="w-full" border="1" cellPadding="8">
+                <thead className="bg-red-600 text-white">
+                  <tr>
+                    <th className="p-3 text-left font-semibold">Skill</th>
+                    <th className="p-3 text-center font-semibold">Rating (Out of 5)</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredSkills.map((skill, i) => (
+                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                      <td className="border border-gray-200 p-3 text-gray-800 font-medium">{skill.name}</td>
+                      <td className="border border-gray-200 p-3 text-center font-semibold text-red-600">
+                        {skill.rating}/5
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Screening Concepts */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-            <div className="h-8 w-1 bg-red-600 rounded-full"></div>
-            Screening Concepts
-          </h3>
-          <div className="overflow-hidden rounded-xl border-2 border-gray-200">
-            <table className="w-full" border="1" cellPadding="8">
-              <thead className="bg-red-600 text-white">
-                <tr>
-                  <th className="p-3 text-left font-semibold">Concept</th>
-                  <th className="p-3 text-left font-semibold">Remark</th>
-                </tr>
-              </thead>
-              <tbody>
-                {concepts.map((concept, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="border border-gray-200 p-3 text-gray-800 font-medium">{concept.topic || "-"}</td>
-                    <td className="border border-gray-200 p-3 text-gray-700">{concept.remark || "-"}</td>
+        {filteredConcepts.length > 0 && (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <div className="h-8 w-1 bg-red-600 rounded-full"></div>
+              Screening Concepts
+            </h3>
+            <div className="overflow-hidden rounded-xl border-2 border-gray-200">
+              <table className="w-full" border="1" cellPadding="8">
+                <thead className="bg-red-600 text-white">
+                  <tr>
+                    <th className="p-3 text-left font-semibold">Concept</th>
+                    <th className="p-3 text-left font-semibold">Remark</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredConcepts.map((concept, i) => (
+                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                      <td className="border border-gray-200 p-3 text-gray-800 font-medium">{concept.topic}</td>
+                      <td className="border border-gray-200 p-3 text-gray-700">{concept.remark}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Final Remarks */}
         <div className="space-y-4">
