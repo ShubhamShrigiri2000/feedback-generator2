@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import CandidateInfoForm from "../components/CandidateInfoForm";
@@ -8,7 +8,6 @@ import FinalRemarks from "../components/FinalRemarks";
 import DownloadButton from "../components/DownloadButton";
 import { useFeedbackForm } from "../hooks/useFeedbackForm";
 import { validateForm } from "../utils/validation";
-import { generatePDF } from "../utils/pdfGenerator";
 import { useFeedbackContext } from "../context/FeedbackContext";
 
 function FeedbackForm() {
@@ -18,7 +17,9 @@ function FeedbackForm() {
     experience,
     setExperience,
     skills,
+    setSkills,
     concepts,
+    setConcepts,
     finalRemarks,
     setFinalRemarks,
     errors,
@@ -31,15 +32,34 @@ function FeedbackForm() {
     removeConcept,
   } = useFeedbackForm();
 
-  const { updateFormData } = useFeedbackContext();
+  const { formData, updateFormData } = useFeedbackContext();
   const navigate = useNavigate();
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+
+  // Restore form data from context when component mounts (when returning from preview)
+  useEffect(() => {
+    if (formData.candidateName || formData.experience || formData.skills?.length > 0 || formData.concepts?.length > 0 || formData.finalRemarks) {
+      if (formData.candidateName) setCandidateName(formData.candidateName);
+      if (formData.experience) setExperience(formData.experience);
+      if (formData.skills && formData.skills.length > 0) setSkills(formData.skills);
+      if (formData.concepts && formData.concepts.length > 0) setConcepts(formData.concepts);
+      if (formData.finalRemarks) setFinalRemarks(formData.finalRemarks);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlePreview = () => {
-    const validationErrors = validateForm(candidateName, experience, skills, concepts);
+    const validationErrors = validateForm(candidateName, experience, skills, concepts, finalRemarks);
     
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      // Scroll to first error
+      setTimeout(() => {
+        const firstErrorKey = Object.keys(validationErrors)[0];
+        const element = document.querySelector(`[data-error="${firstErrorKey}"]`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
       return;
     }
 
@@ -56,26 +76,6 @@ function FeedbackForm() {
     navigate("/preview");
   };
 
-  const handleDownloadPDF = async () => {
-    const validationErrors = validateForm(candidateName, experience, skills, concepts);
-    
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    setErrors({});
-    setIsGeneratingPDF(true);
-
-    try {
-      await generatePDF(candidateName);
-    } catch (error) {
-      console.error("PDF generation error:", error);
-      alert(`Error generating PDF: ${error.message}`);
-    } finally {
-      setIsGeneratingPDF(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-white py-8 px-4">
@@ -96,6 +96,7 @@ function FeedbackForm() {
           onSkillChange={handleSkillChange}
           onAddSkill={addSkill}
           onRemoveSkill={removeSkill}
+          errors={errors}
         />
 
         <ConceptsTable
@@ -103,14 +104,13 @@ function FeedbackForm() {
           onConceptChange={handleConceptChange}
           onAddConcept={addConcept}
           onRemoveConcept={removeConcept}
+          errors={errors}
         />
 
-        <FinalRemarks finalRemarks={finalRemarks} onRemarksChange={setFinalRemarks} />
+        <FinalRemarks finalRemarks={finalRemarks} onRemarksChange={setFinalRemarks} errors={errors} />
 
         <DownloadButton
-          onDownload={handleDownloadPDF}
           onPreview={handlePreview}
-          isLoading={isGeneratingPDF}
         />
       </div>
     </div>
