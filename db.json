@@ -1,0 +1,82 @@
+{
+  "skills": [
+    {
+      "id": "1",
+      "department": "javascript",
+      "skills": [
+        {
+          "id": 101,
+          "name": "Component Architecture",
+          "concepts": [
+            "Functional Components",
+            "Class Components",
+            "Hooks",
+            "Component Composition"
+          ]
+        },
+        {
+          "id": 102,
+          "name": "State Management",
+          "concepts": [
+            "Zustand",
+            "useState Hook",
+            "useReducer Hook",
+            "Context API",
+            "Redux"
+          ]
+        },
+        {
+          "id": 103,
+          "name": "Express Framework",
+          "concepts": [
+            "Routes",
+            "Middleware",
+            "Controllers",
+            "Error Handling"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "department": "python",
+      "skills": [
+        {
+          "id": 201,
+          "name": "Django",
+          "concepts": [
+            "Models",
+            "Views",
+            "Templates"
+          ]
+        }
+      ]
+    },
+    {
+      "id": null,
+      "department": "java",
+      "skills": [
+        {
+          "id": 1771500839736,
+          "name": "OOP",
+          "concepts": [
+            "Polymorph"
+          ]
+        }
+      ]
+    },
+    {
+      "id": null,
+      "department": "java",
+      "skills": [
+        {
+          "id": 1771500839736,
+          "name": "OOP",
+          "concepts": [
+            "Polymorph"
+          ]
+        }
+      ]
+    }
+  ]
+}
