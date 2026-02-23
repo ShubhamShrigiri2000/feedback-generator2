@@ -1,82 +1,58 @@
 {
   "skills": [
     {
-      "id": "1",
+      "id": "1771588209368",
       "department": "javascript",
       "skills": [
         {
-          "id": 101,
-          "name": "Component Architecture",
+          "id": 1771588189015,
+          "name": "ReactJS",
           "concepts": [
-            "Functional Components",
-            "Class Components",
-            "Hooks",
-            "Component Composition"
+            "Redux",
+            "axios",
+            "HTML"
           ]
         },
         {
-          "id": 102,
-          "name": "State Management",
+          "id": 1771842540723,
+          "name": "Angular",
           "concepts": [
-            "Zustand",
-            "useState Hook",
-            "useReducer Hook",
-            "Context API",
-            "Redux"
-          ]
-        },
-        {
-          "id": 103,
-          "name": "Express Framework",
-          "concepts": [
-            "Routes",
-            "Middleware",
-            "Controllers",
-            "Error Handling"
+            "Route"
           ]
         }
       ]
+    }
+  ],
+  "clientSkills": [
+    {
+      "id": "1771588258062",
+      "department": "javascript",
+      "skills": [
+        {
+          "id": 1771588245184,
+          "name": "Angular",
+          "concepts": [
+            "Route"
+          ]
+        }
+      ],
+      "clientId": "client-1771588258062",
+      "clientName": "Client 1"
     },
     {
-      "id": "2",
+      "id": "1771588330929",
       "department": "python",
       "skills": [
         {
-          "id": 201,
+          "id": 1771588304247,
           "name": "Django",
           "concepts": [
-            "Models",
-            "Views",
-            "Templates"
+            "API"
           ]
         }
-      ]
-    },
-    {
-      "id": null,
-      "department": "java",
-      "skills": [
-        {
-          "id": 1771500839736,
-          "name": "OOP",
-          "concepts": [
-            "Polymorph"
-          ]
-        }
-      ]
-    },
-    {
-      "id": null,
-      "department": "java",
-      "skills": [
-        {
-          "id": 1771500839736,
-          "name": "OOP",
-          "concepts": [
-            "Polymorph"
-          ]
-        }
-      ]
+      ],
+      "clientId": "client-1771588330929",
+      "clientName": "Client 2"
     }
   ]
 }
