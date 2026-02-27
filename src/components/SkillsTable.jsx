@@ -1,4 +1,4 @@
-function SkillsTable({ skills, onSkillChange, onAddSkill, onRemoveSkill }) {
+function SkillsTable({ skills, onSkillChange, onAddSkill, onRemoveSkill, availableSkills = [] }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
@@ -18,12 +18,22 @@ function SkillsTable({ skills, onSkillChange, onAddSkill, onRemoveSkill }) {
             {skills.map((skill, index) => (
               <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
                 <td className="p-3">
-                  <input
+                  <>
+                    <input
                     className="w-full p-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all bg-white text-gray-900 placeholder-gray-400"
                     placeholder="e.g., React, Node.js"
                     value={skill.name}
                     onChange={(e) => onSkillChange(index, "name", e.target.value)}
+                    list={`skill-options`}
                   />
+                    {Array.isArray(availableSkills) && availableSkills.length > 0 && (
+                      <datalist id={`skill-options`}>
+                        {availableSkills.map((s) => (
+                          <option key={s.id} value={s.name} />
+                        ))}
+                      </datalist>
+                    )}
+                  </>
                 </td>
                 <td className="p-3">
                   <input

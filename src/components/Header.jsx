@@ -1,6 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Header() {
+  const tabStyle = ({ isActive }) =>
+    `text-sm px-3 py-2 rounded-lg ${
+      isActive
+        ? "bg-red-50 border border-red-200 text-red-600 hover:bg-red-100"
+        : "hover:bg-gray-100"
+    }`;
   return (
     <div className="max-w-6xl mx-auto mb-8">
       <div className="text-center mb-2">
@@ -12,11 +18,19 @@ function Header() {
         </h1>
         <div className="w-32 h-1 bg-red-600 mx-auto rounded-full"></div>
       </div>
-      <p className="text-center text-gray-600 mt-4 text-lg">Generate professional feedback reports for candidates</p>
+      <p className="text-center text-gray-600 mt-4 text-lg">
+        Generate professional feedback reports for candidates
+      </p>
 
       <div className="mt-4 flex justify-center gap-4">
-        <Link to="/" className="text-sm px-3 py-2 rounded-lg hover:bg-gray-100">Form</Link>
-        <Link to="/manage-skills" className="text-sm px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600 hover:bg-red-100">Manage Skills</Link>
+        <NavLink to="/" className={tabStyle}>
+          Form
+        </NavLink>
+        <NavLink to="/manage-skills" className={tabStyle}>
+          Manage Skills
+        </NavLink>
+        {/* <Link to="/" className="text-sm px-3 py-2 rounded-lg hover:bg-gray-100">Form</Link>
+        <Link to="/manage-skills" className="text-sm px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600 hover:bg-red-100">Manage Skills</Link> */}
       </div>
     </div>
   );

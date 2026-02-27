@@ -65,3 +65,74 @@ export const validateSkillData = (data) => {
   });
   return errors;
 };
+
+// ===== Additional exports used by FeedbackForm =====
+
+/**
+ * Extract all unique skills from either internal or client skills data
+ * @param {Array} data - Either skills or clientSkills array from db.json
+ * @returns {Array} Array of {id, name} objects
+ */
+export const extractSkillsFromData = (data) => {
+  if (!Array.isArray(data)) return [];
+
+  const skills = [];
+  data.forEach((department) => {
+    if (department.skills && Array.isArray(department.skills)) {
+      department.skills.forEach((skill) => {
+        skills.push({
+          id: skill.id,
+          name: skill.name,
+        });
+      });
+    }
+  });
+  return skills;
+};
+
+/**
+ * Get concepts for a specific skill
+ * @param {Array} data - Either skills or clientSkills array from db.json
+ * @param {string|number} skillId - The skill ID to find
+ * @returns {Array} Array of concept strings
+ */
+export const getConceptsForSkill = (data, skillId) => {
+  if (!Array.isArray(data)) return [];
+
+  for (const department of data) {
+    if (department.skills && Array.isArray(department.skills)) {
+      const skill = department.skills.find((s) => s.id == skillId);
+      if (skill && Array.isArray(skill.concepts)) {
+        return skill.concepts;
+      }
+    }
+  }
+  return [];
+};
+
+/**
+ * Extract department names from data array
+ * @param {Array} data
+ * @returns {Array} array of department strings
+ */
+export const extractDepartmentsFromData = (data) => {
+  if (!Array.isArray(data)) return [];
+  const depts = [];
+  data.forEach((d) => {
+    if (d && d.department && !depts.includes(d.department)) depts.push(d.department);
+  });
+  return depts;
+};
+
+/**
+ * Get skills for a specific department
+ * @param {Array} data
+ * @param {string} department
+ * @returns {Array} array of {id, name}
+ */
+export const getSkillsForDepartment = (data, department) => {
+  if (!Array.isArray(data) || !department) return [];
+  const dept = data.find((d) => d.department === department);
+  if (!dept || !Array.isArray(dept.skills)) return [];
+  return dept.skills.map((s) => ({ id: s.id, name: s.name }));
+};

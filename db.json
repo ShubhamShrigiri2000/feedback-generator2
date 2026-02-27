@@ -21,6 +21,20 @@
           ]
         }
       ]
+    },
+    {
+      "id": "1772088136712",
+      "department": "dotnet",
+      "skills": [
+        {
+          "id": 1772087945591,
+          "name": "C#",
+          "concepts": [
+            "OOP",
+            "Exception Handling"
+          ]
+        }
+      ]
     }
   ],
   "clientSkills": [
@@ -53,6 +67,33 @@
       ],
       "clientId": "client-1771588330929",
       "clientName": "Client 2"
+    },
+    {
+      "id": "1772087561177",
+      "department": "python",
+      "skills": [
+        {
+          "id": 1772087513646,
+          "name": "data",
+          "concepts": []
+        }
+      ],
+      "clientId": "client-1772087561177",
+      "clientName": "Client 3"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@test.com",
+      "password": "1234",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "email": "user@test.com",
+      "password": "1234",
+      "role": "user"
     }
   ]
 }

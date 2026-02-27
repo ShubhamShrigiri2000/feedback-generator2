@@ -1,10 +1,30 @@
-function Preview({ candidateName, experience, skills, concepts, finalRemarks, date, showTitle = true }) {
+function Preview({
+  candidateName,
+  clientName,
+  experience,
+  skills,
+  concepts,
+  finalRemarks,
+  date,
+  showTitle = true,
+}) {
+  console.log("Preview props:", {
+    candidateName,
+    clientName,
+    experience,
+    skills,
+    concepts,
+    finalRemarks,
+    date,
+  });
   return (
     <div className="max-w-5xl mx-auto mb-8">
       {showTitle && (
         <div className="text-center mb-6">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">Preview</h2>
-          <p className="text-gray-600">This is how your feedback will look in the PDF</p>
+          <p className="text-gray-600">
+            This is how your feedback will look in the PDF
+          </p>
         </div>
       )}
       <div
@@ -29,7 +49,9 @@ function Preview({ candidateName, experience, skills, concepts, finalRemarks, da
 
         {/* Candidate Info */}
         <div className="space-y-4">
-          <h3 className="text-xl font-bold text-gray-800 mb-3">Candidate Information</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-3">
+            Candidate Information
+          </h3>
           <div className="bg-gray-50 rounded-xl p-6 border-2 border-gray-200">
             <table className="w-full">
               <tbody>
@@ -37,8 +59,21 @@ function Preview({ candidateName, experience, skills, concepts, finalRemarks, da
                   <td className="p-4 font-bold text-gray-700 w-1/3 bg-white/50 rounded-tl-lg">
                     Candidate Name
                   </td>
-                  <td className="p-4 text-gray-800 bg-white/30">{candidateName || "-"}</td>
+                  <td className="p-4 text-gray-800 bg-white/30">
+                    {candidateName || "-"}
+                  </td>
                 </tr>
+                {clientName && (
+                  <tr className="border-b border-gray-200">
+                    <td className="p-4 font-bold text-gray-700 w-1/3 bg-white/50 rounded-tl-lg">
+                      Client Name
+                    </td>
+                    <td className="p-4 text-gray-800 bg-white/30">
+                      {clientName || "-"}
+                    </td>
+                  </tr>
+                )}
+
                 <tr>
                   <td className="p-4 font-bold text-gray-700 bg-white/50 rounded-bl-lg">
                     Professional Experience
@@ -63,13 +98,20 @@ function Preview({ candidateName, experience, skills, concepts, finalRemarks, da
               <thead className="bg-red-600 text-white">
                 <tr>
                   <th className="p-3 text-left font-semibold">Skill</th>
-                  <th className="p-3 text-center font-semibold">Rating (Out of 5)</th>
+                  <th className="p-3 text-center font-semibold">
+                    Rating (Out of 5)
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {skills.map((skill, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="border border-gray-200 p-3 text-gray-800 font-medium">{skill.name || "-"}</td>
+                  <tr
+                    key={i}
+                    className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
+                    <td className="border border-gray-200 p-3 text-gray-800 font-medium">
+                      {skill.name || "-"}
+                    </td>
                     <td className="border border-gray-200 p-3 text-center font-semibold text-red-600">
                       {skill.rating ? `${skill.rating}/5` : "-"}
                     </td>
@@ -96,9 +138,16 @@ function Preview({ candidateName, experience, skills, concepts, finalRemarks, da
               </thead>
               <tbody>
                 {concepts.map((concept, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="border border-gray-200 p-3 text-gray-800 font-medium">{concept.topic || "-"}</td>
-                    <td className="border border-gray-200 p-3 text-gray-700">{concept.remark || "-"}</td>
+                  <tr
+                    key={i}
+                    className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
+                    <td className="border border-gray-200 p-3 text-gray-800 font-medium">
+                      {concept.topic || "-"}
+                    </td>
+                    <td className="border border-gray-200 p-3 text-gray-700">
+                      {concept.remark || "-"}
+                    </td>
                   </tr>
                 ))}
               </tbody>
