@@ -5,19 +5,21 @@
       "department": "javascript",
       "skills": [
         {
-          "id": 1771588189015,
-          "name": "ReactJS",
+          "id": 1772195411997,
+          "name": "React",
           "concepts": [
-            "Redux",
-            "axios",
-            "HTML"
+            "Hooks",
+            "State Management",
+            "Component Architecture"
           ]
         },
         {
-          "id": 1771842540723,
+          "id": 1772195505797,
           "name": "Angular",
           "concepts": [
-            "Route"
+            "Components & Services",
+            "RxJS Observables",
+            "Routing & Forms"
           ]
         }
       ]
@@ -27,11 +29,93 @@
       "department": "dotnet",
       "skills": [
         {
-          "id": 1772087945591,
-          "name": "C#",
+          "id": 1772195753719,
+          "name": "ASP.NET Core",
           "concepts": [
-            "OOP",
-            "Exception Handling"
+            "Web API development",
+            "Middleware pipeline",
+            "Authentication & Authorization"
+          ]
+        },
+        {
+          "id": 1772195791508,
+          "name": "Entity Framework",
+          "concepts": [
+            "Code-first migrations",
+            "LINQ queries",
+            "Database tracking"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1772195658893",
+      "department": "java",
+      "skills": [
+        {
+          "id": 1772195586343,
+          "name": "Spring Boot",
+          "concepts": [
+            "REST API development",
+            "Dependency Injection",
+            "Security (JWT / OAuth)"
+          ]
+        },
+        {
+          "id": 1772195618711,
+          "name": "Hibernate",
+          "concepts": [
+            "ORM mapping",
+            "Entity relationships",
+            "Query optimization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1772195928261",
+      "department": "python",
+      "skills": [
+        {
+          "id": 1772195855046,
+          "name": "Django",
+          "concepts": [
+            "MVC architecture",
+            "ORM models",
+            "Authentication system"
+          ]
+        },
+        {
+          "id": 1772195901797,
+          "name": "FastAPI",
+          "concepts": [
+            "Async APIs",
+            "Pydantic validation",
+            "OpenAPI documentation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1772195990666",
+      "department": "devops",
+      "skills": [
+        {
+          "id": 1772195936196,
+          "name": "Docker",
+          "concepts": [
+            "Containerization",
+            "Dockerfile optimization",
+            "Docker Compose"
+          ]
+        },
+        {
+          "id": 1772195960571,
+          "name": "CI/CD",
+          "concepts": [
+            "Build pipelines",
+            "Automated testing",
+            "Deployment workflows"
           ]
         }
       ]
@@ -80,20 +164,6 @@
       ],
       "clientId": "client-1772087561177",
       "clientName": "Client 3"
-    }
-  ],
-  "users": [
-    {
-      "id": 1,
-      "email": "admin@test.com",
-      "password": "1234",
-      "role": "admin"
-    },
-    {
-      "id": 2,
-      "email": "user@test.com",
-      "password": "1234",
-      "role": "user"
     }
   ]
 }
