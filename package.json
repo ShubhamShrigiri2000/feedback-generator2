@@ -4,17 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "env-cmd -f .env.development vite",
-    "start": "env-cmd -f .env.development vite",
+    "dev": "vite",
+    "start:dev": "env-cmd -f .env.development vite",
     "start:qa": "env-cmd -f .env.qa vite",
     "start:prod": "env-cmd -f .env.production vite",
-    "build": "env-cmd -f .env.development vite build",
+    "build": "vite build",
     "build:qa": "env-cmd -f .env.qa vite build",
     "build:prod": "env-cmd -f .env.production vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "server": "json-server --watch db.json --port 3001",
-    "dev:all": "concurrently \"npm run dev\" \"npm run server\""
+    "preview": "vite preview"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",
