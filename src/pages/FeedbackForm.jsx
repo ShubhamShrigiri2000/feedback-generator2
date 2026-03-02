@@ -10,6 +10,7 @@ import { useFeedbackForm } from "../hooks/useFeedbackForm";
 import { validateForm } from "../utils/validation";
 import { useFeedbackContext } from "../context/FeedbackContext";
 import { generatePDF } from "../utils/pdfGenerator";
+import { API_BASE_URL } from "../config/api";
 
 function FeedbackForm() {
   const {
@@ -111,8 +112,8 @@ function FeedbackForm() {
     const fetchData = async () => {
       try {
         const [skillsRes, clientSkillsRes] = await Promise.all([
-          fetch("http://localhost:3001/skills"),
-          fetch("http://localhost:3001/clientSkills"),
+          fetch(`${API_BASE_URL}/skills`),
+          fetch(`${API_BASE_URL}/clientSkills`),
         ]);
 
         const skills = await skillsRes.json();

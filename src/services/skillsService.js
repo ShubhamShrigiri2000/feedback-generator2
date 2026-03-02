@@ -1,6 +1,7 @@
+import { API_BASE_URL } from "../config/api";
 
-const INTERNAL_URL = "http://localhost:3001/skills";
-const CLIENT_URL = "http://localhost:3001/clientSkills";
+const INTERNAL_URL = `${API_BASE_URL}/skills`;
+const CLIENT_URL = `${API_BASE_URL}/clientSkills`;
 
 /* GET ALL */
 export const getSkills = async (type = "internal") => {
