@@ -10,12 +10,21 @@ export const FeedbackProvider = ({ children }) => {
     concepts: [{ topic: "", remark: "" }],
     finalRemarks: "",
     date: new Date().toLocaleDateString(),
+    // new fields for form persistence
+    feedbackType: "internal",
+    selectedDepartment: "",
+    selectedClient: "",
+    clientId: "",
+    // arrays to mirror skills/concepts for clarity
+    selectedSkills: [],
+    selectedConcepts: [],
   });
 
   const updateFormData = (data) => {
     setFormData((prev) => ({
       ...prev,
       ...data,
+      // always refresh date when updating
       date: new Date().toLocaleDateString(),
     }));
   };

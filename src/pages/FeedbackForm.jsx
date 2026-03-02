@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import CandidateInfoForm from "../components/CandidateInfoForm";
@@ -9,6 +9,7 @@ import DownloadButton from "../components/DownloadButton";
 import { useFeedbackForm } from "../hooks/useFeedbackForm";
 import { validateForm } from "../utils/validation";
 import { useFeedbackContext } from "../context/FeedbackContext";
+import { generatePDF } from "../utils/pdfGenerator";
 
 function FeedbackForm() {
   const {
@@ -35,15 +36,54 @@ function FeedbackForm() {
   const { formData, updateFormData } = useFeedbackContext();
   const navigate = useNavigate();
 
+  // track when we're restoring to avoid clearing values
+  const isInitializing = useRef(true);
+
   // Restore form data from context when component mounts (when returning from preview)
   useEffect(() => {
-    if (formData.candidateName || formData.experience || formData.skills?.length > 0 || formData.concepts?.length > 0 || formData.finalRemarks) {
-      if (formData.candidateName) setCandidateName(formData.candidateName);
-      if (formData.experience) setExperience(formData.experience);
-      if (formData.skills && formData.skills.length > 0) setSkills(formData.skills);
-      if (formData.concepts && formData.concepts.length > 0) setConcepts(formData.concepts);
-      if (formData.finalRemarks) setFinalRemarks(formData.finalRemarks);
+    const {
+      candidateName: savedName,
+      experience: savedExp,
+      skills: savedSkills,
+      concepts: savedConcepts,
+      finalRemarks: savedRemarks,
+      feedbackType: savedType,
+      department: savedDept,
+      selectedDepartment: savedDeptAlt,
+      clientId: savedClient,
+      selectedClient: savedClientAlt,
+    } = formData;
+
+    if (
+      savedName ||
+      savedExp ||
+      (savedSkills && savedSkills.length > 0) ||
+      (savedConcepts && savedConcepts.length > 0) ||
+      savedRemarks ||
+      savedType ||
+      savedDept ||
+      savedDeptAlt ||
+      savedClient ||
+      savedClientAlt
+    ) {
+      if (savedName) setCandidateName(savedName);
+      if (savedExp) setExperience(savedExp);
+      if (savedSkills && savedSkills.length > 0) setSkills(savedSkills);
+      if (savedConcepts && savedConcepts.length > 0) setConcepts(savedConcepts);
+      if (savedRemarks) setFinalRemarks(savedRemarks);
+      if (savedType) setFeedbackType(savedType);
+      const deptToUse = savedDept || savedDeptAlt;
+      if (deptToUse) setSelectedDepartment(deptToUse);
+      const clientToUse = savedClient || savedClientAlt;
+      if (clientToUse) setSelectedClient(clientToUse);
     }
+
+    // turn off initialization flag after state has been seeded
+    // using microtask so dependent effects can check it
+    Promise.resolve().then(() => {
+      isInitializing.current = false;
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -91,6 +131,9 @@ function FeedbackForm() {
   }, []);
   /* ---------- Reset when toggle changes ---------- */
   useEffect(() => {
+    // avoid clearing user selections during initial restore
+    if (isInitializing.current) return;
+
     setSelectedDepartment("");
     setSelectedClient("");
     setSkills([{ name: "", rating: "" }]);
@@ -99,6 +142,7 @@ function FeedbackForm() {
 
   /* ---------- Reset department when client changes ---------- */
   useEffect(() => {
+    if (isInitializing.current) return;
     setSelectedDepartment("");
   }, [selectedClient]);
 
@@ -133,6 +177,19 @@ function FeedbackForm() {
   useEffect(() => {
     if (!selectedDepartment) return;
 
+    // if we restored formData and it matches current selectors, use stored arrays
+    if (
+      formData.feedbackType === feedbackType &&
+      (formData.department === selectedDepartment || formData.selectedDepartment === selectedDepartment) &&
+      (formData.clientId === selectedClient || formData.selectedClient === selectedClient) &&
+      formData.skills &&
+      formData.skills.length
+    ) {
+      setSkills(formData.skills);
+      setConcepts(formData.concepts || [{ topic: "", remark: "" }]);
+      return;
+    }
+
     const source =
       feedbackType === "internal" ? dbData.skills : dbData.clientSkills;
 
@@ -159,7 +216,7 @@ function FeedbackForm() {
 
     setSkills(newSkills.length ? newSkills : [{ name: "", rating: "" }]);
     setConcepts(newConcepts.length ? newConcepts : [{ topic: "", remark: "" }]);
-  }, [selectedDepartment, selectedClient, feedbackType, dbData]);
+  }, [selectedDepartment, selectedClient, feedbackType, dbData, formData]);
 
   /* ---------- Derive client name ---------- */
   const selectedClientObj = (dbData.clientSkills || []).find(
@@ -190,11 +247,16 @@ function FeedbackForm() {
       skills,
       concepts,
       finalRemarks,
+      // mirror arrays for clarity
+      selectedSkills: skills,
+      selectedConcepts: concepts,
 
       feedbackType,
-      clientId: selectedClient,
-      clientName,
       department: selectedDepartment,
+      selectedDepartment,
+      clientId: selectedClient,
+      selectedClient,
+      clientName,
     });
 
     navigate("/preview");
@@ -220,10 +282,14 @@ function FeedbackForm() {
       skills,
       concepts,
       finalRemarks,
+      selectedSkills: skills,
+      selectedConcepts: concepts,
       feedbackType,
-      clientId: selectedClient,
-      clientName,
       department: selectedDepartment,
+      selectedDepartment,
+      clientId: selectedClient,
+      selectedClient,
+      clientName,
     });
 
     setIsGeneratingPDF(true);
@@ -323,7 +389,9 @@ function FeedbackForm() {
         <FinalRemarks finalRemarks={finalRemarks} onRemarksChange={setFinalRemarks} errors={errors} />
 
         <DownloadButton
+          onDownload={handleDownloadPDF}
           onPreview={handlePreview}
+          isLoading={isGeneratingPDF}
         />
       </div>
     </div>
